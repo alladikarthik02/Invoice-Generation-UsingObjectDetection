@@ -3,10 +3,25 @@ import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import ShoppingCart from '../SC/ShoppingCart';
 const NavBar = () => {
-  const [showCart, setShowCart] = useState(false);
-
   const handleCartClick = () => {
-    setShowCart(!showCart);
+    const elements2 = document.getElementsByClassName("home");
+    for (let i = 0; i < elements2.length; i++) {
+      elements2[i].style.display = "none";
+    }
+    const elements = document.getElementsByClassName("cart");
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].style.display = "block";
+    }
+  };
+  const handleHomeClick = () => {
+    const elements = document.getElementsByClassName("cart");
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].style.display = "none";
+    }
+    const elements2 = document.getElementsByClassName("home");
+    for (let i = 0; i < elements2.length; i++) {
+      elements2[i].style.display = "block";
+    }
   };
 
   return (
@@ -16,9 +31,8 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-end p-1" style={{ width: '100%' }}>
-            <Nav.Link href="#">Home</Nav.Link>
+            <Nav.Link onClick={handleHomeClick}>Home</Nav.Link>
             <Nav.Link href="https://github.com/areybhaibhai/retail-billing-system">Git Repo</Nav.Link>
-            <Nav.Link href="#order-history">My Orders</Nav.Link>
               <NavDropdown title="Available Products" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Cocoa Powder</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Colgate</NavDropdown.Item>
@@ -37,7 +51,6 @@ const NavBar = () => {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      {showCart && <ShoppingCart />}
     </Navbar>
   );
 };
