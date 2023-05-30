@@ -32,7 +32,9 @@
 }
 .home {
   text-align: center;
-  font-family: Arial, sans-serif;
+  font-family: Helvetica,Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
   background-color: white;
   margin: 0;
   padding: 0;
@@ -54,11 +56,26 @@ h1 {
   color: #333;
   text-align: center;
 }
+@keyframes myAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
 p {
   color: #666;
+  animation-name: myAnimation;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0.5s;
+    animation-iteration-count: 1;
 }
-
 .button {
   display: inline-block;
   background-color: #4caf50;

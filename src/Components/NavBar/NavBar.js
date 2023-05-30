@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import ShoppingCart from '../SC/ShoppingCart';
 const NavBar = () => {
   const handleCartClick = () => {
     const elements2 = document.getElementsByClassName("home");
@@ -27,7 +26,7 @@ const NavBar = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="#">Retail-Billing System</Navbar.Brand>
+        <Navbar.Brand href="#">Automated-Billing System</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-end p-1" style={{ width: '100%' }}>
