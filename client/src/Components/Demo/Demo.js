@@ -1,0 +1,27 @@
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+
+const Demo = () => {
+	const { id } = useParams();
+
+	const dispatcher = useDispatch();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const items = localStorage.getItem("cartItems");
+		console.log(items);
+		if(items == null){
+			localStorage.setItem("cartItems", id);
+		}else{
+			localStorage.setItem("cartItems", items + "_" + id)
+		}
+		alert(`You are trying to enter product with ID: ${id}`);
+		dispatcher({ type: "add-to-cart", value: id });
+		navigate("/cart");
+	}, []);
+
+	return <div>{id}</div>;
+};
+
+export default Demo;
