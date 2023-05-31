@@ -5,43 +5,48 @@ import ShoppingCart from "./Components/SC/ShoppingCart";
 import NavBar from "./Components/NavBar/NavBar";
 import CameraFeed2 from "./Components/CameraFeed/CameraFeed2";
 import SocketComponent from "./Components/Messagepassing/SocketComponent";
+import Home from "./Components/Home/Home";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import Demo from "./Components/Demo/Demo";
+import SignupForm from "./Components/Signup/SignupForm";
+import { useDispatch, useSelector } from "react-redux";
+
+
+const mockUserData = [
+	{
+		username: "Rohith",
+		email: "r@g.com",
+		password: "RB",
+		cart: []
+	}
+]
+
 const App = () => {
-  return (
-    <div>
-      <NavBar />
-      <div className="home">
-        <div class="homebody">
-          <h1>Welcome to the Automated Billing System</h1>
-          <p style={{ marginBlock: 15 }}>
-            Reduce your checkout time and enjoy a seamless billing experience.
-          </p>
-          <p style={{ marginBlock: 30 }}>
-            The automated billing system is a technological solution designed to
-            streamline the retail checkout process and enhance customer
-            satisfaction. By leveraging advanced technologies such as computer
-            vision and machine learning, this system eliminates the need for
-            traditional barcode scanning or RFID tag scanning.{" "}
-          </p>
-          <p style={{ marginBlock: 40 }}>
-            The system's potential for further development includes integration
-            with mobile applications, enabling customers to scan items and
-            generate bills using their smartphones.
-          </p>
-          <p style={{ marginBlock: 30 }}>
-            We use advanced computer vision algorithm like YOLOv8 (You Only Look
-            Once) by <a href="https://ultralytics.com/"> Ultralytics</a> to
-            detect the objects and then use{" "}
-            <a href="https://opencv.org/"> OpenCV</a>, a popular library to
-            process the live feed.
-          </p>
-        </div>
-      </div>
-      <div className="cart">
-        <CameraFeed2 />
-        <ShoppingCart />
-      </div>
-    </div>
-  );
+	const dispatcher = useDispatch();
+	
+	const navigate = useNavigate();
+
+	const signInHandler = (details) => {
+		for(let i of mockUserData){
+			if(i.email === details.email && i.password === details.password){
+				dispatcher({ type: "login", value: i });
+				console.log('Logged in')
+				navigate('/')
+			}
+		}
+	}
+	
+	return (
+		<div>
+			<NavBar />
+			<Routes>
+				<Route path="/" element={<Home />} exact />
+				<Route path="/cart" element={<ShoppingCart />} exact />
+				<Route path="/signin" element={<SignupForm onSignin = {signInHandler}/>} exact />
+				<Route path="/add-product/:id" element={<Demo />} exact />
+			</Routes>
+		</div>
+	);
 };
 
 export default App;
