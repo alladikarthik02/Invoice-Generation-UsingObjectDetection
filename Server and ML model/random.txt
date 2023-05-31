@@ -1,0 +1,37 @@
+items[product[0]]
+decision = input("Is this "+items[product[0]]+"?Y/n ")
+                if decision == 'y' or decision == 'Y':
+                    products.append(items[product[0]])
+                print(products)
+                
+@app.route('/receive-message', methods=['POST'])
+def receive_message_from_react():
+    data = request.get_json()
+    message = data.get('message')
+
+    # Do something with the message
+
+    response_data = {'response': 'Message received by Flask'}
+    print(response_data['response'])
+    return jsonify(response_data)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Running...</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8  offset-lg-2">    
+                <h2 class="mt-5">Sending Video Feed To Client...</h2>
+                <!--<img src="{{ url_for('video_feed') }}" height="80%">-->
+                </div>
+            </div>
+        </div>
+</body>
+</html>
+ 
