@@ -7,7 +7,7 @@ import time
 app = Flask(__name__,template_folder='../template')
 cors = CORS(app)
 
-model=YOLO("C:\\Users\\Harsha\\retail-billing-system\\runs\\detect\\train\\weights\\best.pt")
+model=YOLO("/Users/karthikalladi/VSCODES/Server and ML model/train/weights/best.pt")
 #model.predict(source=,show=True,save=True, conf=0.7)
 items = {0: 'CloseUp', 1: 'Cocoa Powder', 2: 'Colgate', 3: 'Hershey-s', 4: 'KeraGlo', 5: 'Lays', 6: 'Loreal', 7: 'Maggi', 8: 'MarieLight', 9: 'Perk'}
 products = []
