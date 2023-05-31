@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Container, Table, Button, Form, Row, Col } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
 
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [billVisible, setBillVisible] = useState(false);
 
   const products = [
     { id: 1, name: "CloseUp", price: 10 },
@@ -20,32 +21,39 @@ const ShoppingCart = () => {
   ];
 
   const addToCart = () => {
-    const product = products.find(item => item.name === selectedProduct);
+    const product = products.find((item) => item.name === selectedProduct);
     const newItem = {
       id: product.id,
       name: product.name,
       price: product.price,
-      quantity
+      quantity,
     };
     setCartItems([...cartItems, newItem]);
-    setSelectedProduct('');
+    setSelectedProduct("");
     setQuantity(1);
   };
 
   const removeItem = (id) => {
-    const updatedItems = cartItems.filter(item => item.id !== id);
+    const updatedItems = cartItems.filter((item) => item.id !== id);
     setCartItems(updatedItems);
   };
 
   const updateQuantity = (id, newQuantity) => {
-    const updatedItems = cartItems.map(item =>
+    const updatedItems = cartItems.map((item) =>
       item.id === id ? { ...item, quantity: newQuantity } : item
     );
     setCartItems(updatedItems);
   };
 
   const calculateTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+  };
+
+  const generateBill = () => {
+    setBillVisible(true);
   };
 
   return (
@@ -61,8 +69,10 @@ const ShoppingCart = () => {
               onChange={(e) => setSelectedProduct(e.target.value)}
             >
               <option value="">-- Select Product --</option>
-              {products.map(product => (
-                <option key={product.id} value={product.name}>{product.name}</option>
+              {products.map((product) => (
+                <option key={product.id} value={product.name}>
+                  {product.name}
+                </option>
               ))}
             </Form.Control>
           </Form.Group>
@@ -79,7 +89,11 @@ const ShoppingCart = () => {
           </Form.Group>
         </Col>
         <Col>
-          <Button variant="primary" onClick={addToCart} disabled={!selectedProduct}>
+          <Button
+            variant="primary"
+            onClick={addToCart}
+            disabled={!selectedProduct}
+          >
             Add to Cart
           </Button>
         </Col>
@@ -95,13 +109,11 @@ const ShoppingCart = () => {
           </tr>
         </thead>
         <tbody>
-          {cartItems.map(item => (
+          {cartItems.map((item) => (
             <tr key={item.id}>
               <td>
                 <div className="product">
-                  <div className="icon">
-                    
-                  </div>
+                  <div className="icon"></div>
                   <div className="name">{item.name}</div>
                 </div>
               </td>
@@ -111,7 +123,9 @@ const ShoppingCart = () => {
                   type="number"
                   min={1}
                   value={item.quantity}
-                  onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
+                  onChange={(e) =>
+                    updateQuantity(item.id, parseInt(e.target.value))
+                  }
                 />
               </td>
               <td>${item.price * item.quantity}</td>
@@ -123,12 +137,53 @@ const ShoppingCart = () => {
             </tr>
           ))}
           <tr>
-            <td colSpan={3} className="text-right">Total:</td>
+            <td colSpan={3} className="text-right">
+              Total:
+            </td>
             <td>${calculateTotalPrice()}</td>
             <td></td>
           </tr>
         </tbody>
       </Table>
+      <Button
+        variant="success"
+        onClick={generateBill}
+        disabled={cartItems.length === 0}
+      >
+        Generate Bill
+      </Button>
+
+      {billVisible && (
+        <div className="bill">
+          <h2>Bill</h2>
+          <Table striped bordered>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cartItems.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                  <td>${item.price}</td>
+                  <td>{item.quantity}</td>
+                  <td>${item.price * item.quantity}</td>
+                </tr>
+              ))}
+              <tr>
+                <td colSpan={3} className="text-right">
+                  Total:
+                </td>
+                <td>${calculateTotalPrice()}</td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
+      )}
     </Container>
   );
 };
