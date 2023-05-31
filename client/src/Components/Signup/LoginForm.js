@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap";
 
 
 
-const SignupForm = (props) => {
+const LoginForm = (props) => {
 
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -32,7 +32,7 @@ const SignupForm = (props) => {
 						<Form.Control type="password" placeholder="password" ref = {passwordRef}/>
 					</Form.Group>
 					<Button type="submit" className="btn" onClick={submitHandler}>
-						Sign Up
+						Sign In
 					</Button>
 				</Form>
 			</div>
@@ -40,4 +40,4 @@ const SignupForm = (props) => {
 	);
 };
 
-export default SignupForm;
+export default LoginForm;

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
+import store from "../../store/store";
 
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -11,24 +12,40 @@ const ShoppingCart = () => {
   const dispatch = useDispatch();
 
   const products = [
-    { id: 1, name: "CloseUp", price: 10 },
-    { id: 2, name: "Cocoa Powder", price: 20 },
+    { id: "hdsbi78dfY", name: "CloseUp", price: 10 },
+    { id: "kahv238923", name: "Cocoa Powder", price: 20 },
     { id: "hdsbi78dfY", name: "Colgate", price: 15 },
-    { id: 4, name: "Hershey-s", price: 10 },
-    { id: 5, name: "KeraGlo", price: 10 },
-    { id: 6, name: "Lays", price: 10 },
-    { id: 7, name: "Loreal", price: 10 },
+    { id: "kjbw23jhvh", name: "Hershey-s", price: 10 },
+    { id: "JHVgcYVj67", name: "KeraGlo", price: 10 },
+    { id: "Ftuc88cUTI", name: "Lays", price: 10 },
+    { id: "hvIViV89yv", name: "Loreal", price: 10 },
     { id: "jhdvsDjh3f", name: "Maggi", price: 10 },
-    { id: 9, name: "MarieLight", price: 10 },
-    { id: 10, name: "Perk", price: 10 },
+    { id: "iyv9779v97", name: "MarieLight", price: 10 },
+    { id: "iyvI9v9V76", name: "Perk", price: 10 },
   ];
 
   // Load cart items from local storage
-  useState(() => {
+  useEffect(() => {
+    console.log(userDetails);
+    let demoProducts = [];
+    // if (userDetails.cart !== undefined) {
+    // }
     const localCart = localStorage.getItem("cartItems");
-    if (localCart) {
-      const parsedCart = JSON.parse(localCart);
-      setCartItems(parsedCart);
+    console.log(localCart);
+    if (localCart !== null) {
+      const temp = localCart.split("_");
+      const set1 = new Set(temp);
+      const arr = Array.from(set1);
+      console.log(arr);
+      for (let id of arr) {
+        const filteredProducts = products.filter(
+          (product) => product.id === id
+        );
+        if (filteredProducts.length !== 0) {
+          demoProducts.push({ ...filteredProducts[0], quantity: 1 });
+        }
+      }
+      setCartItems(demoProducts);
     }
   }, []);
 
@@ -123,8 +140,6 @@ const ShoppingCart = () => {
           <Button variant="primary" onClick={scanHandler}>
             Scan a product
           </Button>
-          <br />
-          <br />
         </Col>
       </Row>
       <Table striped bordered>
