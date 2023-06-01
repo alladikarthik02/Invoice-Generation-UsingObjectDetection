@@ -16,6 +16,13 @@ const mockUserData = [
     password: "RB",
     cart: [],
   },
+  {
+    username:"Karthik",
+    email: "alladikarthik02@gmail.com",
+    password:"alladi",
+    cart :[],
+  },
+
 ];
 
 const App = () => {

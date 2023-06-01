@@ -1,20 +1,17 @@
 import React, { useEffect,useState } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import store from "../../store/store";
-
+import { useSelector} from "react-redux";
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [billVisible, setBillVisible] = useState(false);
   const userDetails = useSelector((state) => state.userDetails);
-  const dispatch = useDispatch();
 
   const products = [
     { id: "hdsbi78dfY", name: "CloseUp", price: 10 },
     { id: "kahv238923", name: "Cocoa Powder", price: 20 },
-    { id: "hdsbi78dfY", name: "Colgate", price: 15 },
+    { id: "etyd7890we", name: "Colgate", price: 15 },
     { id: "kjbw23jhvh", name: "Hershey-s", price: 10 },
     { id: "JHVgcYVj67", name: "KeraGlo", price: 10 },
     { id: "Ftuc88cUTI", name: "Lays", price: 10 },
@@ -24,7 +21,6 @@ const ShoppingCart = () => {
     { id: "iyvI9v9V76", name: "Perk", price: 10 },
   ];
 
-  // Load cart items from local storage
   useEffect(() => {
     console.log(userDetails);
     let demoProducts = [];
@@ -73,6 +69,13 @@ const ShoppingCart = () => {
     );
     setCartItems(updatedItems);
   };
+  const clearCart = () => {
+    setCartItems([]);
+    localStorage.removeItem("cartItems");
+  };
+  const generateBill = () => {
+    setBillVisible(true);
+  };
 
   const calculateTotalPrice = () => {
     return cartItems.reduce(
@@ -81,18 +84,8 @@ const ShoppingCart = () => {
     );
   };
 
-  const clearCart = () => {
-    setCartItems([]);
-    localStorage.removeItem("cartItems");
-  };
-
   const scanHandler = () => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    window.location.replace("http://127.0.0.1:5000/video-feed");
-  };
-
-  const generateBill = () => {
-    setBillVisible(true);
+    window.location.replace(" http://127.0.0.1:5000/video-feed");
   };
 
   return (
@@ -161,7 +154,7 @@ const ShoppingCart = () => {
                   <div className="name">{item.name}</div>
                 </div>
               </td>
-              <td>${item.price}</td>
+              <td>₹{item.price}</td>
               <td>
                 <Form.Control
                   type="number"
@@ -172,7 +165,7 @@ const ShoppingCart = () => {
                   }
                 />
               </td>
-              <td>${item.price * item.quantity}</td>
+              <td>₹{item.price * item.quantity}</td>
               <td>
                 <Button variant="danger" onClick={() => removeItem(item.id)}>
                   Remove
@@ -184,7 +177,7 @@ const ShoppingCart = () => {
             <td colSpan={3} className="text-right">
               Total:
             </td>
-            <td>${calculateTotalPrice()}</td>
+            <td>₹{calculateTotalPrice()}</td>
             <td></td>
           </tr>
         </tbody>
@@ -217,16 +210,16 @@ const ShoppingCart = () => {
               {cartItems.map((item) => (
                 <tr key={item.id}>
                   <td>{item.name}</td>
-                  <td>${item.price}</td>
+                  <td>₹{item.price}</td>
                   <td>{item.quantity}</td>
-                  <td>${item.price * item.quantity}</td>
+                  <td>₹{item.price * item.quantity}</td>
                 </tr>
               ))}
               <tr>
                 <td colSpan={3} className="text-right">
                   Total:
                 </td>
-                <td>${calculateTotalPrice()}</td>
+                <td>₹{calculateTotalPrice()}</td>
               </tr>
             </tbody>
           </Table>

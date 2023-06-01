@@ -16,7 +16,8 @@ const Demo = () => {
 		}else{
 			localStorage.setItem("cartItems", items + "_" + id)
 		}
-		alert(`You are trying to enter product with ID: ${id}`);
+		alert(`You are trying to enter product with ID: ${id}
+			Please enter the appropriate quantity`);
 		dispatcher({ type: "add-to-cart", value: "product_id" });
 		navigate("/cart");
 	}, []);
