@@ -1,43 +1,44 @@
 import React, { useRef } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Container, Form, Button } from "react-bootstrap";
 
+const LoginPage = (props) => {
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const details = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+    console.log(details);
+    props.onSignin(details);
+  };
 
-const LoginForm = (props) => {
+  return (
+    <Container className="login-page">
+      <h1>Login</h1>
+      <Form>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control type="email" placeholder="Enter email" ref={emailRef} />
+        </Form.Group>
 
-    const emailRef = useRef();
-    const passwordRef = useRef();
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            ref={passwordRef}
+          />
+        </Form.Group>
 
-    const submitHandler = (event) => {
-        event.preventDefault();
-        const details = {
-            email: emailRef.current.value,
-            password: passwordRef.current.value
-        }
-        console.log(details);
-        props.onSignin(details);
-    }
-
-	return (
-		<div className="signup">
-			<div className="signup-connect">
-				<h1>Login into your account</h1>
-			</div>
-			<div className="signup-classic">
-				<Form className="form">
-					<Form.Group controlId="formEmail" className="email">
-						<Form.Control type="email" placeholder="email" ref={emailRef}/>
-					</Form.Group>
-					<Form.Group controlId="formPassword" className="password">
-						<Form.Control type="password" placeholder="password" ref = {passwordRef}/>
-					</Form.Group>
-					<Button type="submit" className="btn" onClick={submitHandler}>
-						Sign In
-					</Button>
-				</Form>
-			</div>
-		</div>
-	);
+        <Button variant="primary" type="submit" onClick={submitHandler}>
+          Log in
+        </Button>
+      </Form>
+    </Container>
+  );
 };
 
-export default LoginForm;
+export default LoginPage;
