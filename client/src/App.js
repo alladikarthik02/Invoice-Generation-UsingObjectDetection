@@ -8,10 +8,11 @@ import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Demo from "./Components/Demo/Demo";
 import LoginForm from "./Components/Signup/LoginForm";
 import { useDispatch, useSelector } from "react-redux";
+import BillGen from "./Components/BillPage/BillPage"
 
 const mockUserData = [
   {
-    username: "Rohith",
+    username: "Narendra",
     email: "r@g.com",
     password: "RB",
     cart: [],
@@ -21,6 +22,12 @@ const mockUserData = [
     email: "alladikarthik02@gmail.com",
     password:"alladi",
     cart :[],
+  },
+  {
+    username: "Sashank",
+    email: "sashank.desu@gmail.com",
+    password: "sashankd",
+    cart: [],
   },
 
 ];

@@ -1,11 +1,14 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
+import moment from "moment";
+
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [billVisible, setBillVisible] = useState(false);
+  const [billDateTime, setBillDateTime] = useState("");
   const userDetails = useSelector((state) => state.userDetails);
 
   const products = [
@@ -74,9 +77,10 @@ const ShoppingCart = () => {
     localStorage.removeItem("cartItems");
   };
   const generateBill = () => {
+    const currentDateTime = moment().format("YYYY-MM-DD HH:mm:ss");
     setBillVisible(true);
+    setBillDateTime(currentDateTime);
   };
-
   const calculateTotalPrice = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -197,6 +201,8 @@ const ShoppingCart = () => {
       {billVisible && (
         <div className="bill">
           <h2>Bill</h2>
+          <p>Username: {userDetails.username}</p> {/* Display the username */}
+          <p>Date and Time: {billDateTime}</p> {/* Display the date-time */}
           <Table striped bordered>
             <thead>
               <tr>
