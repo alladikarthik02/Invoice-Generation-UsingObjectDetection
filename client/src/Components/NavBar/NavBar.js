@@ -28,7 +28,7 @@ const NavBar = () => {
             >
               Home
             </Nav.Link>
-            <Nav.Link href="https://github.com/areybhaibhai/retail-billing-system">
+            <Nav.Link href="https://github.com/alladikarthik02/automated-billing-system">
               Git Repo
             </Nav.Link>
             <NavDropdown title="Available Products" id="basic-nav-dropdown">
