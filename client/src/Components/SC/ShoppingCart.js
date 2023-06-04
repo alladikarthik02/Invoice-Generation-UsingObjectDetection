@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import axios from "axios";
+
 
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -76,11 +78,30 @@ const ShoppingCart = () => {
     setCartItems([]);
     localStorage.removeItem("cartItems");
   };
-  const generateBill = () => {
+  const generateBill = async () => {
     const currentDateTime = moment().format("YYYY-MM-DD HH:mm:ss");
     setBillVisible(true);
     setBillDateTime(currentDateTime);
+
+    const order = {
+      username: userDetails.username,
+      dateTime: currentDateTime,
+      items: cartItems.map((item) => ({
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+      })),
+      totalPrice: calculateTotalPrice(),
+    };
+
+    try {
+      await axios.post("http://localhost:8080/models/Order", order);
+      console.log("Order saved successfully!");
+    } catch (error) {
+      console.error("Failed to save order:", error);
+    }
   };
+
   const calculateTotalPrice = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
