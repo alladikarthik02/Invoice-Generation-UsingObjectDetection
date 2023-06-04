@@ -1,79 +1,44 @@
-const exp = require('express');
-const mongo   = require('mongoose');
-const path  = require('path');
-const dotenv = require('dotenv');
+const express = require("express");
+const mongoose = require("mongoose");
+const Order = require("./models/Order");
 
-dotenv.config()
+const app = express();
+app.use(express.json());
+const cors = require("cors");
 
-
-
-
-const app = exp();
-
-app.get('/', function (req, res) {
-    res.send("Home");
-
-} )
-
-mongo.set('strictQuery', false);
-
-mongo.connect(process.env.MONGO_URI,{
+app.use(cors());
+mongoose.connect(
+  "mongodb+srv://alladikarthik0109:su3Eiq7snWgNM4nT@cluster0.tpof2mb.mongodb.net/?retryWrites=true&w=majority",
+  {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-})
-    .then(() => {
-        app.listen(3000 , () => {
-            console.log(`Server started at port 3000`); 
-        });
-    })
-    .catch( function(err) {
-        console.log(err);
-    });
+  }
+);
 
+// POST route to save an order
+app.post("/models/Order", async (req, res) => {
+  try {
+    const order = new Order(req.body);
+    await order.save();
+    res.status(201).json({ message: "Order saved successfully" });
+  } catch (error) {
+    console.error("Failed to save order:", error);
+    res.status(500).json({ message: "Failed to save order" });
+  }
+});
 
-const { User, Bill, Product} = require('./models/model');
+// GET route to fetch all orders
+app.get("/models/Order", async (req, res) => {
+  try {
+    const orders = await Order.find();
+    res.json(orders);
+  } catch (error) {
+    console.error("Failed to fetch orders:", error);
+    res.status(500).json({ message: "Failed to fetch orders" });
+  }
+});
 
-const user = new User({
-    name: 'srujay',
-  });
-  
-  // Save the user to the database
-  user.save()
-    .then(savedUser => {
-      console.log('User saved:', savedUser);
-  
-      // Create a new bill
-      const bill = new Bill({
-        user: savedUser._id,
-        products: [] // Add product IDs to this array
-      });
-  
-      // Save the bill to the database
-      bill.save()
-        .then(savedBill => {
-          console.log('Bill saved:', savedBill);
-  
-          // Create a new product
-          const product = new Product({
-            name: 'Kingston USB 16Gb',
-            price: 1.99
-          });
-  
-          // Save the product to the database
-          product.save()
-            .then(savedProduct => {
-              console.log('Product saved:', savedProduct);
-  
-              // Add the product ID to the bill's products array
-              savedBill.products.push(savedProduct._id);
-              savedBill.save()
-                .then(updatedBill => {
-                  console.log('Bill updated with product:', updatedBill);
-                })
-                .catch(error => console.error('Failed to update bill:', error));
-            })
-            .catch(error => console.error('Failed to save product:', error));
-        })
-        .catch(error => console.error('Failed to save bill:', error));
-    })
-    .catch(error => console.error('Failed to save user:', error));
+const port = 8080;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
