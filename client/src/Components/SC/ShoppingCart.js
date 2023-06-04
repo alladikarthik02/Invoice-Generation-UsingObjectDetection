@@ -78,6 +78,41 @@ const ShoppingCart = () => {
     setCartItems([]);
     localStorage.removeItem("cartItems");
   };
+
+   const payBill = () => {
+     // Perform the payment logic here...
+     alert("Payment successful!");
+   };
+
+   const printBill = () => {
+     const billContents = document.getElementById("billContents");
+     const printWindow = window.open("", "_blank");
+     printWindow.document.write(`
+      <html>
+        <head>
+          <title>Bill</title>
+          <style>
+            /* Add any custom styles for the bill here */
+          </style>
+        </head>
+        <body>
+          <h2>Bill</h2>
+          <p>Username: ${userDetails.username}</p>
+          <p>Date and Time: ${billDateTime}</p>
+          ${billContents.outerHTML}
+          <script type="text/javascript">
+            window.onload = function() {
+              window.print();
+              window.onafterprint = function() {
+                window.close();
+              };
+            };
+          </script>
+        </body>
+      </html>
+    `);
+     printWindow.document.close();
+   };
   const generateBill = async () => {
     const currentDateTime = moment().format("YYYY-MM-DD HH:mm:ss");
     setBillVisible(true);
@@ -224,32 +259,40 @@ const ShoppingCart = () => {
           <h2>Bill</h2>
           <p>Username: {userDetails.username}</p> {/* Display the username */}
           <p>Date and Time: {billDateTime}</p> {/* Display the date-time */}
-          <Table striped bordered>
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Subtotal</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cartItems.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>₹{item.price}</td>
-                  <td>{item.quantity}</td>
-                  <td>₹{item.price * item.quantity}</td>
+          <div id="billContents" className="bill-contents">
+            <Table striped bordered>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Subtotal</th>
                 </tr>
-              ))}
-              <tr>
-                <td colSpan={3} className="text-right">
-                  Total:
-                </td>
-                <td>₹{calculateTotalPrice()}</td>
-              </tr>
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {cartItems.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.name}</td>
+                    <td>₹{item.price}</td>
+                    <td>{item.quantity}</td>
+                    <td>₹{item.price * item.quantity}</td>
+                  </tr>
+                ))}
+                <tr>
+                  <td colSpan={3} className="text-right">
+                    Total:
+                  </td>
+                  <td>₹{calculateTotalPrice()}</td>
+                </tr>
+              </tbody>
+            </Table>
+          </div>
+          <Button variant="primary" onClick={payBill}>
+            Pay
+          </Button>
+          <Button variant="primary" onClick={printBill}>
+            Print Bill
+          </Button>
         </div>
       )}
     </Container>

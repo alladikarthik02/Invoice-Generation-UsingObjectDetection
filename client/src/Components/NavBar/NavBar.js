@@ -47,14 +47,15 @@ const NavBar = () => {
               </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.10">Perk</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link
-              onClick={() => {
-                navigate("/previous-items");
-              }}
-            >
-              Previous Items
-            </Nav.Link>
-
+            {userLoggedIn && (
+              <Nav.Link
+                onClick={() => {
+                  navigate("/previous-items");
+                }}
+              >
+                Previous Items
+              </Nav.Link>
+            )}
             {userLoggedIn ? (
               <Nav.Link
                 onClick={() => {
