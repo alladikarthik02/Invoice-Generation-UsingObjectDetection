@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Order = require("./models/Order");
+const dotenv =require("dotenv").config();
 
 const app = express();
 app.use(express.json());
@@ -8,7 +9,7 @@ const cors = require("cors");
 
 app.use(cors());
 mongoose.connect(
-  "mongodb+srv://alladikarthik0109:su3Eiq7snWgNM4nT@cluster0.tpof2mb.mongodb.net/?retryWrites=true&w=majority",
+  process.env.MONGO_URI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
