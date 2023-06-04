@@ -8,7 +8,7 @@ import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Demo from "./Components/Demo/Demo";
 import LoginForm from "./Components/Signup/LoginForm";
 import { useDispatch, useSelector } from "react-redux";
-import BillGen from "./Components/BillPage/BillPage"
+import PreviousOrders from "./Components/PreviousOrders";
 
 const mockUserData = [
   {
@@ -58,6 +58,7 @@ const App = () => {
           element={<LoginForm onSignin={signInHandler} />}
           exact
         />
+        <Route path="/previous-items" element={<PreviousOrders />} exact />
         <Route path="/add-product/:id" element={<Demo />} exact />
       </Routes>
     </div>
