@@ -29,8 +29,6 @@ const ShoppingCart = () => {
   useEffect(() => {
     console.log(userDetails);
     let demoProducts = [];
-    // if (userDetails.cart !== undefined) {
-    // }
     const localCart = localStorage.getItem("cartItems");
     console.log(localCart);
     if (localCart !== null) {
@@ -97,8 +95,9 @@ const ShoppingCart = () => {
         </head>
         <body>
           <h2>Bill</h2>
-          <p>Username: ${userDetails.username}</p>
+          <p>Username: Karthik</p>
           <p>Date and Time: ${billDateTime}</p>
+          <p>Invoice Number: C1#124367</p>
           ${billContents.outerHTML}
           <script type="text/javascript">
             window.onload = function() {
@@ -257,8 +256,9 @@ const ShoppingCart = () => {
       {billVisible && (
         <div className="bill">
           <h2>Bill</h2>
-          <p>Username: {userDetails.username}</p> {/* Display the username */}
-          <p>Date and Time: {billDateTime}</p> {/* Display the date-time */}
+          <div>Username: Karthik</div> 
+          <div>Date and Time: {billDateTime}</div> 
+          <div>Invoice Number: C1#124367</div>
           <div id="billContents" className="bill-contents">
             <Table striped bordered>
               <thead>

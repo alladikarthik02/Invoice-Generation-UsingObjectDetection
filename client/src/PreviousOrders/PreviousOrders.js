@@ -21,7 +21,7 @@ const PreviousOrders = () => {
   return (
     <Container>
       <h2>Previous Orders</h2>
-      {orders.map((order) => (
+      {orders.reverse().map((order) => (
         <Card key={order._id} className="mb-4">
           <Card.Body>
             <Card.Title>Date/Time: {order.dateTime}</Card.Title>
@@ -35,6 +35,7 @@ const PreviousOrders = () => {
           </Card.Body>
         </Card>
       ))}
+      <p>For Any Returns Please Contact The Store Staff With Your Respective Bill.</p>
     </Container>
   );
 };
