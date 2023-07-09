@@ -26,7 +26,6 @@ const ShoppingCart = () => {
   ];
   const [invoiceNumber, setInvoiceNumber] = useState("");
   const name = localStorage.getItem("username");
-  //eslint-disable-next-line
   useEffect(() => {
     let demoProducts = [];
     const localCart = localStorage.getItem("cartItems");
@@ -42,9 +41,19 @@ const ShoppingCart = () => {
           demoProducts.push({ ...filteredProducts[0], quantity: 1 });
         }
       }
-      setCartItems(demoProducts);
+
+      const updatedProducts = demoProducts.map((product) => {
+        const discount = product.defaultDiscount || 0;
+        const discountedPrice =
+          product.price - (product.price * discount) / 100;
+        return { ...product, price: discountedPrice };
+      });
+
+      setCartItems(updatedProducts);
     }
+    // eslint-disable-next-line
   }, []);
+
 
   const addToCart = () => {
     const product = products.find((item) => item.name === selectedProduct);
