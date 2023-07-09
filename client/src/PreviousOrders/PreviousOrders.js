@@ -4,15 +4,20 @@ import { Container, Card } from "react-bootstrap";
 
 const PreviousOrders = () => {
   const [orders, setOrders] = useState([]);
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
     fetchOrders();
+    // eslint-disable-next-line
   }, []);
 
   const fetchOrders = async () => {
     try {
       const response = await axios.get("http://localhost:8080/models/Order");
-      setOrders(response.data);
+      const filteredOrders = response.data.filter(
+        (order) => order.username === username
+      );
+      setOrders(filteredOrders);
     } catch (error) {
       console.error("Failed to fetch orders:", error);
     }
@@ -35,7 +40,10 @@ const PreviousOrders = () => {
           </Card.Body>
         </Card>
       ))}
-      <p>For Any Returns Please Contact The Store Staff With Your Respective Bill.</p>
+      <p>
+        For Any Returns Please Contact The Store Staff With Your Respective
+        Bill.
+      </p>
     </Container>
   );
 };
