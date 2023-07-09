@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
-import { useSelector } from "react-redux";
 import moment from "moment";
 import axios from "axios";
 
@@ -11,7 +10,6 @@ const ShoppingCart = () => {
   const [billVisible, setBillVisible] = useState(false);
   const [billDateTime, setBillDateTime] = useState("");
   const [discountCoupon, setDiscountCoupon] = useState("");
-  const userDetails = useSelector((state) => state.userDetails);
   const products = [
     { id: "hdsbi78dfY", name: "CloseUp", price: 10, defaultDiscount: 10 },
     { id: "kahv238923", name: "Cocoa Powder", price: 20 },
@@ -173,7 +171,7 @@ const ShoppingCart = () => {
     setBillDateTime(currentDateTime);
     setInvoiceNumber(generateRandomInvoiceNumber());
     const order = {
-      username: userDetails.username,
+      username: name,
       dateTime: currentDateTime,
       items: cartItems.map((item) => ({
         name: item.name,

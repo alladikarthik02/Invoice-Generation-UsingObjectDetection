@@ -17,7 +17,7 @@ const NavBar = () => {
             navigate("/");
           }}
         >
-          Automated-Billing System
+        Invoice generation by object detection using yolo v8
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
