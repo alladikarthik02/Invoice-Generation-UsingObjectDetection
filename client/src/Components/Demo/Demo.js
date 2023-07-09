@@ -25,9 +25,7 @@ const Demo = () => {
       alert(`You are trying to enter product with ID: ${id}.
 Please enter the appropriate quantity`);
       dispatch({ type: "add-to-cart", value: id });
-      if (userDetails) {
-        dispatch({ type: "login", value: userDetails });
-      }
+      dispatch({ type: "loginaftercall" });
       navigate("/cart");
     }
   }, [dispatch, id, navigate, userDetails]);

@@ -13,18 +13,20 @@ const ShoppingCart = () => {
   const [discountCoupon, setDiscountCoupon] = useState("");
   const userDetails = useSelector((state) => state.userDetails);
   const products = [
-    { id: "hdsbi78dfY", name: "CloseUp", price: 10 },
+    { id: "hdsbi78dfY", name: "CloseUp", price: 10, defaultDiscount: 10 },
     { id: "kahv238923", name: "Cocoa Powder", price: 20 },
-    { id: "etyd7890we", name: "Colgate", price: 15 },
+    { id: "etyd7890we", name: "Colgate", price: 15, defaultDiscount: 10 },
     { id: "kjbw23jhvh", name: "Hershey-s", price: 10 },
     { id: "JHVgcYVj67", name: "KeraGlo", price: 10 },
     { id: "Ftuc88cUTI", name: "Lays", price: 10 },
     { id: "hvIViV89yv", name: "Loreal", price: 10 },
-    { id: "jhdvsDjh3f", name: "Maggi", price: 10 },
+    { id: "jhdvsDjh3f", name: "Maggi", price: 10, defaultDiscount: 10 },
     { id: "iyv9779v97", name: "MarieLight", price: 10 },
     { id: "iyvI9v9V76", name: "Perk", price: 10 },
   ];
   const [invoiceNumber, setInvoiceNumber] = useState("");
+  const name = localStorage.getItem("username");
+  //eslint-disable-next-line
   useEffect(() => {
     let demoProducts = [];
     const localCart = localStorage.getItem("cartItems");
@@ -46,15 +48,24 @@ const ShoppingCart = () => {
 
   const addToCart = () => {
     const product = products.find((item) => item.name === selectedProduct);
-    const newItem = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity,
-    };
-    setCartItems([...cartItems, newItem]);
-    setSelectedProduct("");
-    setQuantity(1);
+    if (product) {
+      const discount = product.defaultDiscount || 0;
+      const discountedPrice = product.price - (product.price * discount) / 100;
+      const newItem = {
+        id: product.id,
+        name: product.name,
+        price: discountedPrice,
+        quantity,
+      };
+      setCartItems([...cartItems, newItem]);
+      setSelectedProduct("");
+      setQuantity(1);
+      console.log(
+        `Added ${product.name} to the cart with price: $${discountedPrice}`
+      );
+    } else {
+      console.log("Product not found");
+    }
   };
 
   const removeItem = (id) => {
@@ -92,7 +103,7 @@ const ShoppingCart = () => {
         </head>
         <body>
           <h2>Bill</h2>
-          <p>Username: Karthik</p>
+          <p>Username: ${name}</p>
           <p>Date and Time: ${billDateTime}</p>
           <p>Invoice Number: ${invoiceNumber}</p>
           ${billContents.outerHTML}
@@ -151,7 +162,7 @@ const ShoppingCart = () => {
     const currentDateTime = moment().format("YYYY-MM-DD HH:mm:ss");
     setBillVisible(true);
     setBillDateTime(currentDateTime);
-    setInvoiceNumber(generateRandomInvoiceNumber()); 
+    setInvoiceNumber(generateRandomInvoiceNumber());
     const order = {
       username: userDetails.username,
       dateTime: currentDateTime,
@@ -299,7 +310,7 @@ const ShoppingCart = () => {
       {billVisible && (
         <div className="bill">
           <h2>Bill</h2>
-          <div>Username: Karthik</div>
+          <div>Username: {name}</div>
           <div>Date and Time: {billDateTime}</div>
           <div>Invoice Number: {invoiceNumber}</div>
           <div id="billContents" className="bill-contents">

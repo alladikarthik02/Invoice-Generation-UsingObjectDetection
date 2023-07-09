@@ -8,9 +8,14 @@ const reducerFunction = (state = initialState, action) => {
         console.log("Logging in!");
         return { ...state, userLoggedIn: true, userDetails: action.value };
     }
+    if(action.type === "loginaftercall"){
+        console.log("Logging in Again");
+        return{...state, userLoggedIn: true}
+    }
 
     if (action.type === "logout") {
         console.log("Logging out!");
+        localStorage.removeItem("username");
         return { ...state, userDetails: {}, userLoggedIn: false };
     }
 

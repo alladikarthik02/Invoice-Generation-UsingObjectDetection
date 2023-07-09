@@ -38,6 +38,7 @@ const App = () => {
   const signInHandler = (details) => {
     for (let i of mockUserData) {
       if (i.email === details.email && i.password === details.password) {
+        localStorage.setItem("username", i.username);
         dispatch({ type: "login", value: i });
         console.log("Logged in");
         navigate("/");
