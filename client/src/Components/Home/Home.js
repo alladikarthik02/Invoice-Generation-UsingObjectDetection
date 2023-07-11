@@ -18,7 +18,7 @@ const Home = () => {
           Reduce your checkout time and enjoy a seamless billing experience.
         </p>
         <p style={{ marginBlock: 30 }}>
-          The automated billing system is a technological solution designed to
+          The invoice generation system is a technological solution designed to
           streamline the retail checkout process and enhance customer
           satisfaction. By leveraging advanced technologies such as computer
           vision and machine learning, this system eliminates the need for
